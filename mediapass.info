@@ -1,0 +1,5 @@
+name = MediaPass Subscription Plugin
+description = Integrate your mediapass.com account with your Drupal website.
+core = 7.x
+
+version = "0.1"

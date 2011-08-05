@@ -1,0 +1,35 @@
+<?php
+/**
+* Implements hook_help()
+*
+* @param path
+*   Which path of the site we're using to display help
+* @param arg
+*   Array that holds the current path as returned from arg() function
+*/
+function mediapass_help($path, $arg) {
+	switch ($path) {
+		case "admin/help#mediapass":
+      		return '<p>'.  t("Displays links to nodes created on this date") .'</p>';
+      		break;
+  	}
+}
+
+/**
+* Implements hook_menu().
+*/
+function mediapass_menu() {
+	$items = array(); 
+
+	$items['admin/config/content/mediapass'] = array(
+		'title' => 'MediaPass',
+    	'description' => 'Configure your MediaPass account.',
+    	'page callback' => 'drupal_get_form',
+    	'page arguments' => array('mediapass_form'),
+    	'access arguments' => array('administer site configuration'),
+		'file' => 'mediapass.admin.inc',
+    	'type' => MENU_NORMAL_ITEM
+  	);
+ 
+	return $items;
+}
