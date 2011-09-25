@@ -125,8 +125,7 @@ function mediapass_account_info($form, &$form_state) {
 
 function medipass_account_info_submit($form, &$form_state) {
 	
-	$data = $form_state['values'];
-	// $data['Id'] = variable_get('MP_user_ID');
+	$data = $form_state['input'];
 	
 	$fields = array(
 		'Id',

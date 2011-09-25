@@ -70,7 +70,7 @@ function mediapass_network_settings($form, &$form_state) {
 
 function medipass_network_settings_submit($form, &$form_state) {
 	
-	$data = $form_state['values'];
+	$data = $form_state['input'];
 	
 	$fields = array(
 		'Title',

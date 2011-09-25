@@ -42,7 +42,7 @@ function mediapass_ecpm_floor($form, &$form_state) {
 
 function medipass_ecpm_floor_submit($form, &$form_state) {
 	
-	$data = $form_state['values'];
+	$data = $form_state['input'];
 	
 	$fields = array(
 		'ecpm_floor'

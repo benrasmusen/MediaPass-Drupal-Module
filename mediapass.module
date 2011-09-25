@@ -48,8 +48,7 @@ function mediapass_menu() {
   	$items['admin/config/mediapass/summary'] = array(
 	    'title' => 'Summary Report',
 	    'description' => 'See basic analytics from your MediaPass account.',
-		'page callback' => 'drupal_get_form',
-	    'page arguments' => array('mediapass_summary'),
+	    'page callback' => 'mediapass_summary',
 	 	'access arguments' => array('access administration pages'),
 		'file' => 'mediapass.summary.inc',
 	    'weight' => 5

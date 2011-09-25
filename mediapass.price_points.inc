@@ -137,33 +137,56 @@ function mediapass_price_points($form, &$form_state) {
 
 function medipass_price_points_submit($form, &$form_state) {
 	
-	$data = $form_state['values'];
+	$data = $form_state['input'];
 	
-	$fields = array(
-		'Id',
-		'Title',
-	    'CompanyName',
-	    'CompanyAddress',
-	    'Country',
-	    'City',
-	    'State',
-	    'Zip',
-	    'Telephone',
-	    'CustomRedirectURL',
-	    'CustomSalePostURL'
+	$increment_map = array(
+		'1mo' => array(
+			'Length' => 1,
+			'Increment' => 2592000
+		),
+		'3mo' => array(
+			'Length' => 3,
+			'Increment' => 2592000
+		),
+		'6mo' => array(
+			'Length' => 6,
+			'Increment' => 2592000
+		),
+		'1yr' => array(
+			'Length' => 1,
+			'Increment' => 31104000
+		)
 	);
 	
-	foreach ($data as $key => $value) {
-		if (!in_array($key, $fields)) {
-			unset($data[$key]);
-		}
+	$price_model = array();
+	
+	switch ($data['SubscriptionModel']) {
+		case 'membership':
+			foreach (array(1,2,3) as $index) {
+				$price_model[$index] = $increment_map[$data['period_' . $index]];
+				$price_model[$index]['Price'] = $data['price_'.$index];
+				$price_model[$index]['Type'] = 0;
+			}
+			break;
+		
+		case 'single':
+			$price_model[] = array(
+				'Type' => 1,
+				'Length' => 1,
+				'Increment' => 31104000,
+				'Price' => $data['price']
+			);
+			break;
 	}
 	
-	$response = mediapass_api_request('account', array(
+	$data = array(
+		'Id' => (int) variable_get('MP_user_ID'),
+		'Active' => 1,
+		'PriceModel' => $price_model
+	);
+	
+	$response = mediapass_api_request('price', array(
 		'method' => 'POST',
-		'params' => array(
-			'Id' => variable_get('MP_user_ID')
-		),
 		'data' => $data
 	));
 	

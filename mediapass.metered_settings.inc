@@ -24,9 +24,13 @@ function mediapass_metered_settings($form, &$form_state) {
 		'#description' => t('Update your MediaPass Metered Settings.')
 	);
 	$form['container']['Status'] = array(
-		'#type' => 'textfield',
+		'#type' => 'select',
 		'#title' => t('Status'),
-		'#value' => $values['Status']
+		'#value' => $values['Status'],
+		'#options' => array(
+			'Off' => 'Off',
+			'On' => 'On'
+		)
 	);
 	$form['container']['Count'] = array(
 		'#type' => 'textfield',
@@ -46,7 +50,7 @@ function mediapass_metered_settings($form, &$form_state) {
 
 function medipass_metered_submit($form, &$form_state) {
 	
-	$data = $form_state['values'];
+	$data = $form_state['input'];
 	
 	$fields = array(
 		'Status',

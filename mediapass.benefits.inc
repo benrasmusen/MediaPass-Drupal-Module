@@ -98,7 +98,7 @@ function medipass_benefits_submit($form, &$form_state) {
 		
 	}
 	
-	$data = $form_state['values'];
+	$data = $form_state['input'];
 	
 	$fields = array(
 		'Benefit' => null
