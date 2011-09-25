@@ -1,4 +1,16 @@
 <?php
+
+define('MP_PLUGIN_NAME', 'mediapass');
+define('MP_CLIENT_ID', '7480FECEA20C3338C950F885BFA148C9');
+define('MP_API_URL', 'http://www.mediapassacademy.net/v1/');
+
+define('MP_AUTH_LOGIN_URL', 'http://www.mediapassacademy.net/Account/Auth/?client_id='.MP_CLIENT_ID.'&scope=http://www.mediapassacademy.net/auth.html&response_type=token&redirect_uri=');
+define('MP_AUTH_REFRESH_URL', 'http://www.mediapassacademy.net/oauth/refresh?client_id='.MP_CLIENT_ID.'&scope=http://www.mediapassacademy.net/auth.html&grant_type=refresh_token&redirect_uri=');
+define('MP_AUTH_REGISTER_URL', 'http://www.mediapassacademy.net/Account/AuthRegister/?'.MP_CLIENT_ID.'&scope=http://www.mediapassacademy.net/auth.html&response_type=token&redirect_uri=');
+define('MP_AUTH_DEAUTH_URL', 'http://www.mediapassacademy.net/oauth/unauthorize?client_id='.MP_CLIENT_ID.'&scope=http://www.mediapassacademy.net/auth.html&redirect_uri=');
+
+define('MP_FAQ_FEED_URL', 'http://mymediapass.com/wordpress/2011/06/faq/feed/?withoutcomments=1');
+
 /**
 * Implements hook_help()
 *
@@ -10,26 +22,203 @@
 function mediapass_help($path, $arg) {
 	switch ($path) {
 		case "admin/help#mediapass":
-      		return '<p>'.  t("Displays links to nodes created on this date") .'</p>';
+      		return '<p>'.  t("Help content goes here.") .'</p>';
       		break;
   	}
+}
+
+function mediapass_enable() {
+	
+	drupal_set_message(t('You need to signup or link your MediaPass account to fully utilize this module, please do so by <a href="' . url('admin/config/mediapass/link') . '">clicking here</a>.'), 'warning');
+	
 }
 
 /**
 * Implements hook_menu().
 */
 function mediapass_menu() {
-	$items = array(); 
 
-	$items['admin/config/content/mediapass'] = array(
-		'title' => 'MediaPass',
-    	'description' => 'Configure your MediaPass account.',
-    	'page callback' => 'drupal_get_form',
-    	'page arguments' => array('mediapass_form'),
-    	'access arguments' => array('administer site configuration'),
-		'file' => 'mediapass.admin.inc',
-    	'type' => MENU_NORMAL_ITEM
+	$items['admin/config/mediapass'] = array(
+	    'title' => 'MediaPass',
+	    'description' => 'Manage your MediaPass account settings.',
+	    'position' => 'left',
+	    'weight' => -5,
+	    'access arguments' => array('access administration pages')
   	);
+  	$items['admin/config/mediapass/summary'] = array(
+	    'title' => 'Summary Report',
+	    'description' => 'See basic analytics from your MediaPass account.',
+		'page callback' => 'drupal_get_form',
+	    'page arguments' => array('mediapass_summary'),
+	 	'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.summary.inc',
+	    'weight' => 5
+  	);
+  	$items['admin/config/mediapass/account_info'] = array(
+	    'title' => 'Account Information',
+		'description' => 'Update your account information.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('mediapass_account_info'),
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.account_info.inc',
+		'weight' => 6,
+  	);
+	$items['admin/config/mediapass/price_points'] = array(
+	    'title' => 'Price Points',
+		'description' => 'Update the price points for your content.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('mediapass_price_points'),
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.price_points.inc',
+		'weight' => 7,
+  	);
+	$items['admin/config/mediapass/update_benefits'] = array(
+	    'title' => 'Update Benefits',
+		'description' => 'Update your benefits copy and logo.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('mediapass_benefits'),
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.benefits.inc',
+		'weight' => 8,
+	);
+	$items['admin/config/mediapass/ecpm_floor'] = array(
+	    'title' => 'Update eCPM Floor',
+		'description' => 'Update your eCPM Floor.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('mediapass_ecpm_floor'),
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.ecpm_floor.inc',
+		'weight' => 8,
+	);
+	$items['admin/config/mediapass/metered_settings'] = array(
+	    'title' => 'Metered Settings',
+		'description' => 'Update your metered settings.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('mediapass_metered_settings'),
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.metered_settings.inc',
+		'weight' => 8,
+	);
+	$items['admin/config/mediapass/network_settings'] = array(
+	    'title' => 'Network Settings',
+		'description' => 'Update your network settings.',
+	    'page callback' => 'drupal_get_form',
+		'page arguments' => array('mediapass_network_settings'),
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.network_settings.inc',
+		'weight' => 8,
+	);
+	$items['admin/config/mediapass/faqs'] = array(
+	    'title' => 'FAQs, Terms & Conditions',
+		'description' => 'View MediaPass FAQs and terms & Conditions.',
+	    'page callback' => 'mediapass_faqs',
+		'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.faqs.inc',
+		'weight' => 9,
+  	);
+	$items['admin/config/mediapass/link'] = array(
+	    'title' => 'Link/Unlink MediaPass Account',
+	    'description' => 'Click here to signup for a new MediaPass account or link your existing account. Or unlink your account.',
+		'page callback' => 'mediapass_link',
+	 	'access arguments' => array('access administration pages'),
+		'file' => 'mediapass.link.inc',
+		'type' => MENU_NORMAL_ITEM,
+	    'weight' => 1
+	);
  
 	return $items;
+}
+
+function mediapass_filter_info() {
+	$filters['filter_mediapass'] = array(
+		'title' => t('Place MediaPass Script'),
+		'description' => t('Allows you to place the MediaPass Javascript code in your content. Wrap your premium content with the proper tags.'),
+		'prepare callback' => '_mediapass_prepare',
+		'process callback' => '_mediapass_process',
+		'tips callback' => '_mediapass_tips'
+	);
+  	return $filters;
+}
+
+function _mediapass_prepare($text, $filter) {
+	return $text;
+}
+
+function _mediapass_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+	
+	$MP_id = 570;
+	$site_url = "";
+	// $text .= '<noscript><meta http-equiv="REFRESH" content="0; url=http://www.mediapass.com/subscription/noscriptredirect?key=' . $MP_id . '&uri=' . $site_url . '"></noscript><script type="text/javascript" src="http://www.mediapass.com/static/js/mm.js"></script><script type="text/javascript">MediaPass.init(' . $MP_id . ');</script>';
+	// $text = preg_replace("/\[mediapass_overlay\]\s*(((?!\[mediapass_overlay\]|\[mediapass_overlay\]).)+)\s*\[\/mediapass_overlay\]/", '<div id="media-pass-tease" style="display:none;">$1</div>', $text);
+	
+	return $text;
+	
+}
+
+function _mediapass_tips($filter, $format, $long = FALSE) {
+	$tips = "Wrap your premium content in the following tags to trigger the overlay: <em>[mediapass_overlay] {content} [/mediapass_overlay]</em></li>";
+	$tips .= "<li>Wrap your premium content in the following tags to trigger the in page: <em>[mediapass_inpage] {content} [/mediapass_inpage]</em></li>";
+	$tips .= "<li>Wrap your premium content in the following tags to trigger the video: <em>[mediapass_video] {content} [/mediapass_video]</em></li>";
+	return $tips;
+}
+
+function mediapass_api_request($action = null, $options = array()) {
+	
+	$base_url = MP_API_URL;
+
+	$options = array_merge(array(
+		'headers' => array(
+			'Accept' => 'application/json',
+			'oauth_token' => variable_get('MP_access_token')
+		),
+		'method' => 'GET',
+		'data' => array(),
+		'params' => array()
+	), (array) $options);
+	
+	if ($options['method'] == 'POST') {
+		$options['headers']['Content-Type'] = 'application/x-www-form-urlencoded';
+	}
+
+	$options['data'] = http_build_query($options['data'], '', '&');
+	
+	$response = drupal_http_request(MP_API_URL . $action . '/' . implode('/', $options['params']), $options);
+	$data = json_decode($response->data);
+	
+	if ($response->code == 200 && $data->Status == 'success') {
+		
+		if (is_array($data->Msg)) {
+			foreach ($data->Msg as $key => $value) {
+				$return[$key] = !empty($value) ? get_object_vars($value) : array();
+			}	
+			return $return;
+		}
+		
+		return !empty($data->Msg) ? get_object_vars($data->Msg) : null;
+		
+	} elseif ($response->code == 403) {
+		
+		drupal_goto(MP_AUTH_REFRESH_URL . urlencode("http" . ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "s" : null) . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']) . '&refresh_token=' . variable_get('MP_refresh_token'));
+		
+	} else {
+		
+		drupal_set_message(t('There was an error accessing your account. Please contact support. <em>(reference: ' . $data->Msg . ')</em>'), 'error');
+		
+		return false;
+		
+	}
+	
+}
+
+function _checkSetup() {
+	
+	$mp_user_ID = variable_get('MP_user_ID');
+	$mp_access_token = variable_get('MP_access_token');
+	$mp_refresh_token = variable_get('MP_refresh_token');
+	
+	if (!$mp_user_ID && !$mp_refresh_token && !$mp_access_token) {
+		drupal_set_message(t('You need to signup or link your MediaPass account to fully utilize this module.'), 'warning');
+		drupal_goto('admin/config/mediapass/link');
+	}
+	
 }
