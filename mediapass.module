@@ -50,7 +50,7 @@ function mediapass_menu() {
 	    'description' => 'See basic analytics from your MediaPass account.',
 	    'page callback' => 'mediapass_summary',
 	 	'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.summary.inc',
+		'file' => 'includes/mediapass.summary.inc',
 	    'weight' => 5
   	);
   	$items['admin/config/mediapass/account_info'] = array(
@@ -59,7 +59,7 @@ function mediapass_menu() {
 	    'page callback' => 'drupal_get_form',
 		'page arguments' => array('mediapass_account_info'),
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.account_info.inc',
+		'file' => 'includes/mediapass.account_info.inc',
 		'weight' => 6,
   	);
 	$items['admin/config/mediapass/price_points'] = array(
@@ -68,7 +68,7 @@ function mediapass_menu() {
 	    'page callback' => 'drupal_get_form',
 		'page arguments' => array('mediapass_price_points'),
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.price_points.inc',
+		'file' => 'includes/mediapass.price_points.inc',
 		'weight' => 7,
   	);
 	$items['admin/config/mediapass/update_benefits'] = array(
@@ -77,7 +77,7 @@ function mediapass_menu() {
 	    'page callback' => 'drupal_get_form',
 		'page arguments' => array('mediapass_benefits'),
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.benefits.inc',
+		'file' => 'includes/mediapass.benefits.inc',
 		'weight' => 8,
 	);
 	$items['admin/config/mediapass/ecpm_floor'] = array(
@@ -86,7 +86,7 @@ function mediapass_menu() {
 	    'page callback' => 'drupal_get_form',
 		'page arguments' => array('mediapass_ecpm_floor'),
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.ecpm_floor.inc',
+		'file' => 'includes/mediapass.ecpm_floor.inc',
 		'weight' => 8,
 	);
 	$items['admin/config/mediapass/metered_settings'] = array(
@@ -95,7 +95,7 @@ function mediapass_menu() {
 	    'page callback' => 'drupal_get_form',
 		'page arguments' => array('mediapass_metered_settings'),
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.metered_settings.inc',
+		'file' => 'includes/mediapass.metered_settings.inc',
 		'weight' => 8,
 	);
 	$items['admin/config/mediapass/network_settings'] = array(
@@ -104,7 +104,7 @@ function mediapass_menu() {
 	    'page callback' => 'drupal_get_form',
 		'page arguments' => array('mediapass_network_settings'),
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.network_settings.inc',
+		'file' => 'includes/mediapass.network_settings.inc',
 		'weight' => 8,
 	);
 	$items['admin/config/mediapass/faqs'] = array(
@@ -112,7 +112,7 @@ function mediapass_menu() {
 		'description' => 'View MediaPass FAQs and terms & Conditions.',
 	    'page callback' => 'mediapass_faqs',
 		'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.faqs.inc',
+		'file' => 'includes/mediapass.faqs.inc',
 		'weight' => 9,
   	);
 	$items['admin/config/mediapass/link'] = array(
@@ -120,7 +120,7 @@ function mediapass_menu() {
 	    'description' => 'Click here to signup for a new MediaPass account or link your existing account. Or unlink your account.',
 		'page callback' => 'mediapass_link',
 	 	'access arguments' => array('access administration pages'),
-		'file' => 'mediapass.link.inc',
+		'file' => 'includes/mediapass.link.inc',
 		'type' => MENU_NORMAL_ITEM,
 	    'weight' => 1
 	);
