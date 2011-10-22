@@ -1,8 +1,6 @@
 <?php
 function mediapass_network_settings($form, &$form_state) {
 	
-	_checkSetup();
-	
 	$response = mediapass_api_request('network/list', array(
 		'method' => 'GET',
 		'params' => array(

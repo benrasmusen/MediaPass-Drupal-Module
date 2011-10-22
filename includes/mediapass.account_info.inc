@@ -2,8 +2,6 @@
 
 function mediapass_account_info($form, &$form_state) {
 	
-	_checkSetup();
-	
 	if (empty($form_state['input'])) {
 		$response = mediapass_api_request('account', array(
 			'method' => 'GET',
@@ -81,38 +79,7 @@ function mediapass_account_info($form, &$form_state) {
 	$form['container']['CustomSalePostURL'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Custom Sale Posting URL'),
-		'#value' => $values['CustomSalePostURL'],
-		'#suffix' => '<table cellspacing="0" cellpadding="0" style="width:350px;">
-		    <tbody>
-				<tr>
-			        <th colspan="2">List of Dynamic Variables</th>
-			    </tr>
-			    <tr>
-			        <td>##OrderNumber##</td>
-			        <td>The order number of the sale</td>
-			    </tr>
-			    <tr>
-			        <td>##SaleAmount##</td>
-			        <td>The amount of the sale</td>
-			    </tr>
-			    <tr>
-			        <td>##Commission##</td>
-			        <td>The affiliate commission</td>
-			    </tr>
-			    <tr>
-			        <td>##SalesID##</td>
-			        <td>The Affiliate Wiz internal Sale ID</td>
-			    </tr>
-			    <tr>
-			        <td>##Tier##</td>
-			        <td>The commission Tier</td>
-			    </tr>
-			    <tr>
-			        <td>##SubAffiliateID##</td>
-			        <td>The Sub AffiliateID if available</td>
-			    </tr>
-			</tbody>
-		</table>'
+		'#value' => $values['CustomSalePostURL']
 	);
 	$form['container']['submit'] = array(
 		'#type' => 'submit',

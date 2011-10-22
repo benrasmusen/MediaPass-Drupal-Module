@@ -2,13 +2,6 @@
 
 function mediapass_link() {
 	
-	// Save oAuth return values
-	if (!empty($_GET['access_token']) && !empty($_GET['refresh_token']) && !empty($_GET['id'])) {
-		variable_set( 'MP_access_token', $_GET['access_token'] );
-		variable_set( 'MP_refresh_token', $_GET['refresh_token'] );
-		variable_set( 'MP_user_ID', $_GET['id'] );
-	}
-	
 	$mp_user_ID = variable_get('MP_user_ID');
 	$mp_access_token = variable_get('MP_access_token');
 	$mp_refresh_token = variable_get('MP_refresh_token');
@@ -38,6 +31,10 @@ $html = <<<STRING
 STRING;
 
 	} else {
+		
+		!empty($_GET['access_token']) && !empty($_GET['refresh_token']) && !empty($_GET['id']) {
+			drupal_set_message(t('Successfully linked MediaPass account.'), 'status');
+		}
 		
 $html = <<<STRING
 <div class="mp-wrap">

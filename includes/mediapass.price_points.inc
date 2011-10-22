@@ -9,8 +9,6 @@ function mediapass_price_points($form, &$form_state) {
 		'1yr' => '1 Year'
 	);
 	
-	_checkSetup();
-	
 	$response = mediapass_api_request('price', array(
 		'method' => 'GET',
 		'params' => array(

@@ -1,8 +1,6 @@
 <?php
 function mediapass_ecpm_floor($form, &$form_state) {
 	
-	_checkSetup();
-	
 	if (empty($form_state['input'])) {
 		$response = mediapass_api_request('ecpm', array(
 			'method' => 'GET',

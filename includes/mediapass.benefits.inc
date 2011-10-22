@@ -1,8 +1,6 @@
 <?php
 function mediapass_benefits($form, &$form_state) {
 	
-	_checkSetup();
-	
 	if (empty($form_state['input'])) {
 		$response['Benefit'] = mediapass_api_request('benefit', array(
 			'method' => 'GET',
